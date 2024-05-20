@@ -554,7 +554,8 @@ return (function () {
         }
 		// FUNÇÃO: Adiciona classe ao elemento
         function addClassToElement(elt, clazz, delay) {
-            elt = resolveTarget(elt);
+            console.log("addClass: "+clazz);
+			elt = resolveTarget(elt);
             if (delay) {
                 setTimeout(function(){
                     addClassToElement(elt, clazz);
@@ -566,7 +567,8 @@ return (function () {
         }
 		// FUNÇÃO: Remove classe do elemento
         function removeClassFromElement(elt, clazz, delay) {
-            elt = resolveTarget(elt);
+            console.log("removeClass: "+clazz);
+			elt = resolveTarget(elt);
             if (delay) {
                 setTimeout(function(){
                     removeClassFromElement(elt, clazz);
@@ -582,9 +584,10 @@ return (function () {
                 }
             }
         }
-
+		// FUNÇÃO: Altera classe do elemento
         function toggleClassOnElement(elt, clazz) {
-            elt = resolveTarget(elt);
+            console.log("toggleClass: "+clazz);
+			elt = resolveTarget(elt);
             elt.classList.toggle(clazz);
         }
 
@@ -2233,9 +2236,10 @@ return (function () {
                 console.log("ERROR: ", msg);
             }
         }
-
+		// FUNÇÃO: triggerEvent - Dispara os eventos 
         function triggerEvent(elt, eventName, detail) {
-            elt = resolveTarget(elt);
+            console.log("Trigger: "+eventName+" : "+elt.id);
+			elt = resolveTarget(elt);
             if (detail == null) {
                 detail = {};
             }
