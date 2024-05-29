@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script src="Htmx_upd.js"></script>
+		<script>
+		function mostra(txt){
+			return txt;
+			}
+		function init(){
+			return true;
+			}
+		</script>
+		<style>
+			DIV.htmx-added {background: blue;color:white;}
+			DIV.htmx-indicator {background: red;color:white;}
+			DIV.htmx-request {background: yellow;color:red;}
+			DIV.htmx-settling {background: green;color:yellow;}
+			DIV.htmx-swapping {background: lightgrey;color:black;}
+		</style>
+	</head>
+
+	<body onload="init();">
+		<div hx-exec="mostra('Vim do mostra')" hx-swap="innerHTML" hx-trigger="load">
+			Vai carregar conteúdo do javascript.
+		</div>
+	</body>
+</html>
