@@ -35,7 +35,7 @@ return (function () {
             values : function(elt, type){
                 var inputValues = getInputValues(elt, type || "post");
                 return inputValues.values;
-            },
+				},
             remove : removeElement,
             addClass : addClassToElement,
             removeClass : removeClassFromElement,
@@ -123,7 +123,7 @@ return (function () {
             withExtensions: withExtensions,
         }
 
-        var VERBS = ['get', 'post', 'put', 'delete', 'patch', 'exec'];
+        var VERBS = ['get', 'post', 'put', 'delete', 'patch', 'exec', 'route'];
         var VERB_SELECTOR = VERBS.map(function(verb){
             return "[hx-" + verb + "], [data-hx-" + verb + "]"
         }).join(", ");
@@ -914,7 +914,7 @@ return (function () {
                 }
             });
         }
-	// FUN«√O: Chamada de Load do AJAX
+	// FUN√á√ÉO: Chamada de Load do AJAX
         function makeAjaxLoadTask(child) {
             return function () {
                 removeClassFromElement(child, htmx.config.addedClass);
@@ -2169,7 +2169,7 @@ return (function () {
                 triggerEvent(elt, "htmx:afterProcessNode");
             }
         }
-	// Processa um nÛ
+	// Processa um n√≥
         function processNode(elt) {
             elt = resolveTarget(elt);
             if (closest(elt, htmx.config.disableSelector)) {
@@ -3043,7 +3043,7 @@ return (function () {
             return triggerEvent(elt, "htmx:validateUrl", mergeObjects({url: url, sameHost: sameHost}, requestConfig));
         }
 	
-	// FUN«√O: Emite chamada AJAX
+	// FUN√á√ÉO: Emite chamada AJAX
         function issueAjaxRequest(verb, path, elt, event, etc, confirmed) {
             var resolve = null;
             var reject = null;
@@ -3304,13 +3304,12 @@ return (function () {
 			return promise;
 			};
 		
-		// MÈtodos do "xhr"
-		if( verb != "exec" ){
+		// M√©todos do "xhr"
+		if( verb != "exec" && verb != "route" ){
 			xhr.open(verb.toUpperCase(), finalPath, true);
 			xhr.overrideMimeType("text/html");
 			xhr.withCredentials = requestConfig.withCredentials;
 			xhr.timeout = requestConfig.timeout;
-
 			// request headers
 			if (requestAttrValues.noHeaders) {
 				// ignore all headers
@@ -3410,13 +3409,39 @@ return (function () {
 			return promise;
 			//}
 		} else {
-		var tgSwap = target.getAttribute("hx-swap");
-		var tgExec = target.getAttribute("hx-exec");
-		var cmd = "target."+tgSwap+" = "+tgExec;
-		console.log(cmd);
-		var x = eval(cmd);
+			// VERBOS especiais de roteamento direto
+			switch (verb){
+				case "exec":
+					var tgSwap = target.getAttribute("hx-swap");
+					var tgExec = target.getAttribute("hx-exec");
+					var cmd = "target."+tgSwap+" = "+tgExec;
+					console.log(cmd);
+					var x = eval(cmd);
+					break;
+				case "route":
+					var tgSwap = target.getAttribute("hx-swap");
+					var tgRoute = target.getAttribute("hx-route");
+					var tgName = target.getAttribute("name");
+					console.log(tgName);
+					if( typeof(ROTAS) == "undefined" ){
+						console.log("Defina as rotas");
+						} else {
+						if( typeof(ROTAS[tgRoute]) == "undefined" ){
+							console.log("Defina a rota "+tgRoute+" em ROTAS.");
+							} else {
+							target.removeAttribute("hx-route");
+							target.setAttribute("hx-get", ROTAS[tgRoute]);
+							target['htmx-internal-data'].path = ROTAS[tgRoute];
+							target['htmx-internal-data'].verb = "get";
+							requestConfig.path = ROTAS[tgRoute];
+							requestConfig.verb = "get";
+							processNode(target);
+							}
+						}
+					break;
+				}
+			}
 		}
-	}
 	// FIM DA AJAX REQUEST
         function determineHistoryUpdates(elt, responseInfo) {
 
@@ -3896,7 +3921,7 @@ return (function () {
             }
         }
 
-        // FUN«√O: Inicializa o documento
+        // FUN√á√ÉO: Inicializa o documento
         ready(function () {
             mergeMetaConfig();
             insertIndicatorStyles();

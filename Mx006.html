@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script>
+		var ROTAS = [];
+		ROTAS["/contato/add"] = "/Htmx/contato/Index.php";
+		ROTAS["/contato/Mx"] = "/Htmx/contato/Mx001.php";
+		function mostra(txt){
+			return txt;
+			}
+		function init(){
+			return true;
+			}
+		</script>
+		<script src="Htmx_upd.js"></script>
+		<style>
+			DIV.htmx-added {background: blue;color:white;}
+			DIV.htmx-indicator {background: red;color:white;}
+			DIV.htmx-request {background: yellow;color:red;}
+			DIV.htmx-settling {background: green;color:yellow;}
+			DIV.htmx-swapping {background: lightgrey;color:black;}
+		</style>
+	</head>
+
+	<body onload="init();">
+		<div name="d01" hx-route="/contato/add" hx-swap="innerHTML" hx-trigger="load">
+			Vai carregar conte&uacute;do do route.
+		</div>
+		<hr>
+		<div name="d02" hx-route="/contato/Mx" hx-swap="innerHTML" hx-trigger="load">
+			Vai carregar conte&uacute;do do javascript.
+		</div>
+		<hr>
+		<div name="d03" hx-exec="mostra('Vim do mostra')" hx-swap="innerHTML" hx-trigger="load">
+			Vai carregar conte&uacute;do do javascript.
+		</div>
+	</body>
+</html>
