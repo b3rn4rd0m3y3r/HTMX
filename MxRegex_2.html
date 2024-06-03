@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<script>
+		function init(){
+			return true;
+			}
+		function mostra(){
+			var txt = "";
+			var regra = "/contato/([a-z]+)/([0-9]+)";
+			var rota = "/Htmx/contato/Index.php?action=R[1]&Id=R[2]";
+			var pathOri = "/contato/edit/39";
+			var R =  pathOri.match(regra);
+			console.log(R);
+			for(regras=1;regras<R.length;++regras){
+				txt += R[regras]+"<br>";
+				}
+			return txt;
+			}
+		</script>
+		<script src="Htmx_upd.js"></script>
+		<style>
+			BODY {font-family: Arial; font-size: 18px;}
+		</style>
+	</head>
+
+	<body id="Corpo" onload="init();">
+		<div hx-exec="mostra()" hx-swap="innerHTML" hx-trigger="load">
+			Vai carregar o retorno do javascript.
+		</div>
+	</body>
+</html>
